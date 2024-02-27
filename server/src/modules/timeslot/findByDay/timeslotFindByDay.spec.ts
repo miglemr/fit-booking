@@ -22,12 +22,12 @@ await db.getRepository(Sport).save([fakeSport(), fakeSport()])
 
 it('should find all timeslots for provided day of the week', async () => {
   await timeslotRepository.save([
-    fakeTimeslot({ trainerId: 1, sportId: 1, day_of_week: 1 }),
-    fakeTimeslot({ trainerId: 1, sportId: 1, day_of_week: 1 }),
-    fakeTimeslot({ trainerId: 1, sportId: 1, day_of_week: 2 }),
+    fakeTimeslot({ trainerId: 1, sportId: 1, dayOfWeek: 1 }),
+    fakeTimeslot({ trainerId: 1, sportId: 1, dayOfWeek: 1 }),
+    fakeTimeslot({ trainerId: 1, sportId: 1, dayOfWeek: 2 }),
   ])
 
-  const response = await findByDay({ day_of_week: 1 })
+  const response = await findByDay({ dayOfWeek: 1 })
 
   expect(response).toHaveLength(2)
 })

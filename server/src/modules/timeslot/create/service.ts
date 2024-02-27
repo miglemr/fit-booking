@@ -10,8 +10,8 @@ export async function checkTimeslotOverlap(
     .getRepository(Timeslot)
     .createQueryBuilder('timeslot')
     .where('timeslot.trainerId = :trainerId', { trainerId: input.trainerId })
-    .andWhere('timeslot.day_of_week = :day_of_week', {
-      day_of_week: input.day_of_week,
+    .andWhere('timeslot.dayOfWeek = :dayOfWeek', {
+      dayOfWeek: input.dayOfWeek,
     })
     .andWhere(
       '(timeslot.timeStart < :timeEnd AND timeslot.timeEnd > :timeStart)',

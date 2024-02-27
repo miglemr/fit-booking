@@ -2,7 +2,8 @@ import { Session, User } from '@server/entities'
 import { sessionSchema } from '@server/entities/session'
 import { authenticatedProcedure } from '@server/trpc/authenticatedProcedure'
 import { TRPCError } from '@trpc/server'
-import { checkBookingOverlap } from './service'
+import sendEmail from '@server/modules/sendEmail'
+import { checkBookingOverlap, generateEmailContent } from './service'
 
 export default authenticatedProcedure
   .input(sessionSchema.pick({ id: true }))
@@ -31,6 +32,15 @@ export default authenticatedProcedure
     sessionWithUsers.calculateSpotsLeft()
 
     const booking = await db.getRepository(Session).save(sessionWithUsers)
+
+    try {
+      await sendEmail(
+        user.email,
+        generateEmailContent(user.firstName, sessionWithUsers)
+      )
+    } catch (error) {
+      throw new Error('Failed to send the confirmation e-mail')
+    }
 
     return booking
   })

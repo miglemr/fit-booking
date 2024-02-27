@@ -16,7 +16,7 @@ export class Timeslot {
   id: number
 
   @Column('integer')
-  day_of_week: number
+  dayOfWeek: number
 
   @Column('integer')
   sportId: number
@@ -46,7 +46,7 @@ export type TimeslotBare = Omit<Timeslot, 'sport' | 'trainer'>
 
 export const timeslotSchema = validates<TimeslotBare>().with({
   id: z.number().int().positive(),
-  day_of_week: z.number().nonnegative().lte(6),
+  dayOfWeek: z.number().nonnegative().lte(6),
   sportId: z.number().int().positive(),
   trainerId: z.number().int().positive(),
   timeStart: z.string(),

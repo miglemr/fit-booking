@@ -8,7 +8,9 @@ import {
   fakeUser,
 } from '@server/entities/tests/fakes'
 import { authContext } from '@tests/utils/context'
+import * as sendEmail from '@server/modules/sendEmail'
 import sessionRouter from '..'
+import { generateEmailContent } from './service'
 
 const db = await createTestDatabase()
 const sessionRepository = db.getRepository(Session)
@@ -20,10 +22,13 @@ await db.getRepository(User).save(user)
 
 const { book } = createCaller(authContext({ db }, user))
 
+vi.mock('@server/modules/sendEmail', () => ({ default: vi.fn() }))
+
 await db.getRepository(Trainer).save([fakeTrainer(), fakeTrainer()])
 await db.getRepository(Sport).save([fakeSport(), fakeSport()])
 
 it('should book a session', async () => {
+  const sendEmailSpy = vi.spyOn(sendEmail, 'default')
   await sessionRepository.save([
     fakeSession({ sportId: 1, trainerId: 1 }),
     fakeSession({ sportId: 1, trainerId: 1 }),
@@ -39,9 +44,15 @@ it('should book a session', async () => {
   })
   expect(sessionWithUsers.users).toHaveLength(1)
   expect(sessionWithUsers.spotsLeft).toEqual(9)
+  expect(sendEmailSpy).toBeCalledTimes(1)
+  expect(sendEmailSpy).toBeCalledWith(
+    user.email,
+    generateEmailContent(user.firstName, sessionWithUsers)
+  )
 })
 
 it('should throw an error if there is an overlapping booking', async () => {
+  const sendEmailSpy = vi.spyOn(sendEmail, 'default')
   await sessionRepository.save([
     fakeSession({
       sportId: 1,
@@ -61,9 +72,11 @@ it('should throw an error if there is an overlapping booking', async () => {
   await expect(book({ id: 3 })).resolves.not.toThrow()
 
   await expect(book({ id: 4 })).rejects.toThrow(/overlaps/)
+  expect(sendEmailSpy).toBeCalledTimes(1)
 })
 
 it('should throw an error if session is cancelled', async () => {
+  const sendEmailSpy = vi.spyOn(sendEmail, 'default')
   await sessionRepository.save(
     fakeSession({
       sportId: 1,
@@ -76,4 +89,5 @@ it('should throw an error if session is cancelled', async () => {
   )
 
   await expect(book({ id: 5 })).rejects.toThrow(/cancel/)
+  expect(sendEmailSpy).not.toBeCalled()
 })

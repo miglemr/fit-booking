@@ -21,6 +21,9 @@ export class User {
   @Column('text', { select: false })
   password: string
 
+  @Column('text')
+  firstName: string
+
   @ManyToMany(() => Session, (session) => session.users)
   sessions: Session[]
 
@@ -37,6 +40,7 @@ export const userSchema = validates<UserBare>().with({
   id: z.number().int().positive(),
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(8).max(64),
+  firstName: z.string().min(1),
 })
 
 export const userInsertSchema = userSchema.omit({

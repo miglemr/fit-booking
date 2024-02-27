@@ -49,7 +49,7 @@ it('should throw an error if there is an overlapping timeslot', async () => {
     fakeTimeslot({
       trainerId: 1,
       sportId: 1,
-      day_of_week: 1,
+      dayOfWeek: 1,
       timeStart: '10:00',
       timeEnd: '11:00',
     })
@@ -60,7 +60,7 @@ it('should throw an error if there is an overlapping timeslot', async () => {
       fakeTimeslot({
         trainerId: 1,
         sportId: 1,
-        day_of_week: 1,
+        dayOfWeek: 1,
         timeStart: '10:30',
         timeEnd: '11:30',
       })

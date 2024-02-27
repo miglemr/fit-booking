@@ -26,3 +26,16 @@ export async function checkBookingOverlap(
     throw new Error('Booking overlaps with existing booking')
   }
 }
+
+export const generateEmailContent = (name: string, session: Session) => ({
+  subject: 'Booking confirmation',
+  html: `<p>Dear ${name},</p>
+  <p>Your booking for the ${session.sport.name} class is confirmed.</p>
+  <ul>
+    <li><strong>Date:</strong> ${session.date}</li>
+    <li><strong>Starts at:</strong> ${session.timeStart}</li>
+    <li><strong>Ends at:</strong> ${session.timeEnd}</li>
+    <li><strong>Trainer:</strong> ${session.trainer.firstName} ${session.trainer.lastName}</li>
+  </ul>
+  `,
+})

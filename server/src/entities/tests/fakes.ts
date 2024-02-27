@@ -12,6 +12,7 @@ export const fakeUser = <T extends Partial<User>>(overrides: T = {} as T) => ({
   id: randomId(),
   email: random.email(),
   password: 'Password.123!',
+  firstName: random.first(),
   isAdmin: false,
   ...overrides,
 })
@@ -64,7 +65,7 @@ export const fakeTimeslot = <T extends Partial<Timeslot>>(
 
   return {
     id: randomId(),
-    day_of_week: random.integer({ min: 0, max: 6 }),
+    dayOfWeek: random.integer({ min: 0, max: 6 }),
     timeStart: `${hour}:00`,
     timeEnd: `${hour + 1}:00`,
     spotsTotal: 10,

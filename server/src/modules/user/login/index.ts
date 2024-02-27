@@ -10,7 +10,7 @@ import { prepareTokenPayload } from '../tokenPayload'
 const { expiresIn, tokenKey } = config.auth
 
 export default publicProcedure
-  .input(userInsertSchema)
+  .input(userInsertSchema.omit({ firstName: true }))
   .mutation(async ({ input: { email, password }, ctx: { db } }) => {
     const user = (await db.getRepository(User).findOne({
       select: {

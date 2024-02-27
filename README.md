@@ -1,8 +1,10 @@
 # Fit Booking
 
+## About
+
 Fit Booking is an application designed for sports centers, offering a solution to simplify the booking process. With this app users can effortlessly reserve classes and sports centers can easily manage training schedules.
 
-## About
+## Features
 
 **Users**
 
@@ -23,3 +25,7 @@ Fixed schedule for every day of the week to automatically populate training sess
 **Sessions**
 
 Training session list with information about date and time, trainer and available spots for users to reserve.
+
+## API reference
+
+- [SendGrid](https://sendgrid.com/)

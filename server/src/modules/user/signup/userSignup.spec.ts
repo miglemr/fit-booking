@@ -20,6 +20,7 @@ it('should save a user', async () => {
       id: true,
       email: true,
       password: true,
+      firstName: true,
     },
     where: {
       email: user.email,
@@ -30,6 +31,7 @@ it('should save a user', async () => {
     id: expect.any(Number),
     email: user.email,
     password: expect.not.stringContaining(user.password),
+    firstName: user.firstName,
   })
 
   expect(userCreated.password).toHaveLength(60)
@@ -37,6 +39,7 @@ it('should save a user', async () => {
   expect(response).toEqual({
     id: expect.any(Number),
     email: user.email,
+    firstName: user.firstName,
   })
 
   expect(response.id).toEqual(userCreated!.id)
@@ -56,6 +59,7 @@ it('should require a valid email', async () => {
     signup({
       email: 'user-email-invalid',
       password: 'password.123',
+      firstName: 'Jane',
     })
   ).rejects.toThrow(/email/i)
 })
@@ -65,6 +69,7 @@ it('should require a password with at least 8 characters', async () => {
     signup({
       email: 'user2@domain.com',
       password: 'pas.123',
+      firstName: 'Jane',
     })
   ).rejects.toThrow(/password/i)
 })
@@ -74,6 +79,7 @@ it('throws an error for invalid email', async () => {
     signup({
       email: 'not-an-email',
       password: 'some-password',
+      firstName: 'Jane',
     })
   ).rejects.toThrow(/email/)
 })
