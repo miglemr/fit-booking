@@ -12,6 +12,12 @@ In development mode:
 npm run dev
 ```
 
+Running server with in-memory database
+
+```bash
+npm run dev:mem
+```
+
 ## Tests
 
 ```bash
@@ -28,4 +34,4 @@ npm  run  coverage
 
 Start the server and navigate to _localhost:3000/panel_ to manually test all endpoints.
 
-To access admin only endpoints, sign up, in the database set user as admin, sign in, copy access token and set it in Headers.
+To access admin only endpoints, sign up, in the database set user as admin, sign in, copy access token and set it in Headers (key: Authorization, value: Bearer (token)).
