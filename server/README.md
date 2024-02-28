@@ -4,6 +4,8 @@
 2. Create a PostgreSQL database.
 3. Add credentials to `.env` file based on `.env.example`.
 
+> **Note:** In order to be able to send emails you would need to sign up for SendGrid account and verify sender e-mail
+
 ## Running the server
 
 In development mode:
