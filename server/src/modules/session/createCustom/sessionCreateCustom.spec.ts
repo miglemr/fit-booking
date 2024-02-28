@@ -15,7 +15,7 @@ const sessionRepository = db.getRepository(Session)
 
 const createCaller = createCallerFactory(sessionRouter)
 
-const { create } = createCaller(authContext({ db }, fakeAdmin()))
+const { createCustom } = createCaller(authContext({ db }, fakeAdmin()))
 
 await db.getRepository(Trainer).save([fakeTrainer(), fakeTrainer()])
 await db.getRepository(Sport).save([fakeSport(), fakeSport()])
@@ -23,7 +23,7 @@ await db.getRepository(Sport).save([fakeSport(), fakeSport()])
 it('should save a session', async () => {
   const session = fakeSession({ sportId: 1, trainerId: 1 })
 
-  const response = await create(session)
+  const response = await createCustom(session)
 
   expect(response).toEqual({
     ...session,
@@ -53,7 +53,7 @@ it('should save a session', async () => {
 })
 
 it('should throw an error if there is an overlapping session', async () => {
-  await create(
+  await createCustom(
     fakeSession({
       sportId: 1,
       trainerId: 1,
@@ -64,7 +64,7 @@ it('should throw an error if there is an overlapping session', async () => {
   )
 
   await expect(
-    create(
+    createCustom(
       fakeSession({
         sportId: 1,
         trainerId: 1,
