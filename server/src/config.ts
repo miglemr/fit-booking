@@ -21,7 +21,7 @@ const schema = z
     auth: z.object({
       tokenKey: z.string().default(() => {
         if (isDevTest) {
-          return ''
+          return 'secret'
         }
 
         throw new Error('You must provide a token key in production env!')
