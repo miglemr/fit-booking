@@ -67,3 +67,49 @@ it('should throw an error if there is an overlapping timeslot', async () => {
     )
   ).rejects.toThrow(/overlaps/)
 })
+
+it('should throw an error if day of the week is invalid', async () => {
+  await expect(
+    create(
+      fakeTimeslot({
+        trainerId: 1,
+        sportId: 1,
+        dayOfWeek: 8,
+      })
+    )
+  ).rejects.toThrow()
+})
+
+it('should throw an error if time is invalid', async () => {
+  await expect(
+    create(
+      fakeTimeslot({
+        trainerId: 1,
+        sportId: 1,
+        timeStart: '26:00',
+      })
+    )
+  ).rejects.toThrow()
+})
+
+it('should throw an error if referenced sport ID is invalid', async () => {
+  await expect(
+    create(
+      fakeTimeslot({
+        trainerId: 111,
+        sportId: 1,
+      })
+    )
+  ).rejects.toThrow()
+})
+
+it('should throw an error if referenced trainer ID is invalid', async () => {
+  await expect(
+    create(
+      fakeTimeslot({
+        trainerId: 1,
+        sportId: 111,
+      })
+    )
+  ).rejects.toThrow()
+})

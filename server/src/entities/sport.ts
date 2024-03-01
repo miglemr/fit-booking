@@ -23,10 +23,7 @@ export type SportBare = Omit<Sport, 'sessions' | 'timeslots'>
 
 export const sportSchema = validates<SportBare>().with({
   id: z.number().int().positive(),
-  name: z
-    .string()
-    .min(1, 'Sport name must be at least 2 characters long')
-    .max(100),
+  name: z.string().min(1).max(64).trim(),
 })
 
 export const sportInsertSchema = sportSchema.omit({

@@ -75,3 +75,49 @@ it('should throw an error if there is an overlapping session', async () => {
     )
   ).rejects.toThrow(/overlaps/)
 })
+
+it('should throw an error if date is invalid', async () => {
+  await expect(
+    createCustom(
+      fakeSession({
+        sportId: 1,
+        trainerId: 1,
+        date: '2024-13-24',
+      })
+    )
+  ).rejects.toThrow()
+})
+
+it('should throw an error if time is invalid', async () => {
+  await expect(
+    createCustom(
+      fakeSession({
+        trainerId: 1,
+        sportId: 1,
+        timeStart: '26:00',
+      })
+    )
+  ).rejects.toThrow()
+})
+
+it('should throw an error if referenced sport ID is invalid', async () => {
+  await expect(
+    createCustom(
+      fakeSession({
+        trainerId: 111,
+        sportId: 1,
+      })
+    )
+  ).rejects.toThrow()
+})
+
+it('should throw an error if referenced trainer ID is invalid', async () => {
+  await expect(
+    createCustom(
+      fakeSession({
+        trainerId: 1,
+        sportId: 111,
+      })
+    )
+  ).rejects.toThrow()
+})

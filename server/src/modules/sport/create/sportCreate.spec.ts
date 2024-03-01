@@ -30,3 +30,21 @@ it('should save a sport', async () => {
 
   expect(response.id).toEqual(sportCreated!.id)
 })
+
+it('should throw an error if name is not provided', async () => {
+  await expect(create({ name: '' })).rejects.toThrow()
+})
+
+it('should save sport name trimmed', async () => {
+  const trainer = {
+    name: '  Gym  ',
+  }
+
+  await create(trainer)
+
+  await expect(
+    sportRepository.findOneByOrFail({
+      name: 'Gym',
+    })
+  ).resolves.not.toThrow()
+})

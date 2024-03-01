@@ -32,3 +32,19 @@ it('should save a trainer', async () => {
 
   expect(response.id).toEqual(trainerCreated!.id)
 })
+
+it('should save trainer with first name and last name trimmed', async () => {
+  const trainer = {
+    firstName: '  Jane  ',
+    lastName: 'Doe  ',
+  }
+
+  await create(trainer)
+
+  await expect(
+    trainerRepository.findOneByOrFail({
+      firstName: 'Jane',
+      lastName: 'Doe',
+    })
+  ).resolves.not.toThrow()
+})
