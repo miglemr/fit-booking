@@ -80,7 +80,7 @@ export const fakeTimeslot = <T extends Partial<Timeslot>>(
 export const fakeSession = <T extends Partial<Timeslot>>(
   overrides: T = {} as T
 ) => {
-  const year = new Date(Date.now()).getFullYear()
+  const year = new Date().getFullYear()
 
   const date = new Date(random.date({ string: true, year, month: 2 }))
     .toISOString()
