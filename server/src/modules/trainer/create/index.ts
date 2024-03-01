@@ -4,8 +4,6 @@ import { adminProcedure } from '@server/trpc/adminProcedure'
 
 export default adminProcedure
   .input(trainerInsertSchema)
-  .mutation(async ({ input, ctx: { db } }) => {
-    const trainer = await db.getRepository(Trainer).save(input)
-
-    return trainer
-  })
+  .mutation(async ({ input, ctx: { db } }) =>
+    db.getRepository(Trainer).save(input)
+  )
