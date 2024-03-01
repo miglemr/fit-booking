@@ -40,13 +40,11 @@ export const userSchema = validates<UserBare>().with({
   id: z.number().int().positive(),
   email: z.string().trim().toLowerCase().email(),
   password: z.string().min(8).max(64),
-  firstName: z.string().min(1),
+  firstName: z.string().min(1).max(64),
 })
 
 export const userInsertSchema = userSchema.omit({
   id: true,
-  sessions: true,
-  isAdmin: true,
 })
 
 export type UserInsert = z.infer<typeof userInsertSchema>

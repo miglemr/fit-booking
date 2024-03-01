@@ -26,8 +26,8 @@ export type TrainerBare = Omit<Trainer, 'sessions' | 'timeslots'>
 
 export const trainerSchema = validates<TrainerBare>().with({
   id: z.number().int().positive(),
-  firstName: z.string().min(1),
-  lastName: z.string().min(1),
+  firstName: z.string().min(1).max(64),
+  lastName: z.string().min(1).max(64),
 })
 
 export const trainerInsertSchema = trainerSchema.omit({

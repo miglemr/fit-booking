@@ -31,8 +31,6 @@ export const sportSchema = validates<SportBare>().with({
 
 export const sportInsertSchema = sportSchema.omit({
   id: true,
-  sessions: true,
-  timeslots: true,
 })
 
 export type SportInsert = z.infer<typeof sportInsertSchema>

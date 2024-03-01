@@ -76,7 +76,12 @@ export class Session {
 
 export type SessionBare = Omit<
   Session,
-  'sport' | 'trainer' | 'users' | 'spotsLeft' | 'calculateSpotsLeft'
+  | 'sport'
+  | 'trainer'
+  | 'users'
+  | 'spotsLeft'
+  | 'calculateSpotsLeft'
+  | 'isCancelled'
 >
 
 export const sessionSchema = validates<SessionBare>().with({
@@ -87,13 +92,10 @@ export const sessionSchema = validates<SessionBare>().with({
   timeStart: z.string(),
   timeEnd: z.string(),
   spotsTotal: z.number().int().positive(),
-  isCancelled: z.boolean(),
 })
 
 export const sessionInsertSchema = sessionSchema.omit({
   id: true,
-  isCancelled: true,
-  spotsLeft: true,
 })
 
 export type SessionInsert = z.infer<typeof sessionInsertSchema>
