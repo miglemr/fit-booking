@@ -8,7 +8,7 @@ import {
   fakeTrainer,
 } from '@server/entities/tests/fakes'
 import { authContext } from '@tests/utils/context'
-import sessionRouter from '..'
+import sessionRouter from '../../index'
 
 const db = await createTestDatabase()
 const sessionRepository = db.getRepository(Session)

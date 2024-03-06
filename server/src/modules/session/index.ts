@@ -1,11 +1,6 @@
 import { router } from '@server/trpc'
-import createCustom from './createCustom'
-import createBySchedule from './createBySchedule'
-import cancel from './cancel'
-import book from './book'
-import cancelBooking from './cancelBooking'
-import findByDate from './findByDate'
-import findByUserId from './findByUserId'
+import { createCustom, createBySchedule, cancel } from './admin'
+import { book, cancelBooking, findByDate, findByUserId } from './user'
 
 export default router({
   createCustom,
