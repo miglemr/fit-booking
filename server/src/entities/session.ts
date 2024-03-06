@@ -10,9 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { z } from 'zod'
-import { Sport } from './sport'
-import { User } from './user'
-import { Trainer } from './trainer'
+import { Sport, User, Trainer } from '.'
 
 @Entity()
 export class Session {

@@ -28,7 +28,9 @@ export default adminProcedure
     const timeslotsInsert = timeslots.map((timeslot) => {
       const { dayOfWeek, ...rest } = timeslot
 
-      Object.assign(rest, { date })
+      Object.assign(rest, {
+        date,
+      })
 
       return rest
     }) as Session[]

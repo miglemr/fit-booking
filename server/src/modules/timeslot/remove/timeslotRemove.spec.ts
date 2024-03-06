@@ -1,11 +1,12 @@
 import { createCallerFactory } from '@server/trpc'
 import { createTestDatabase } from '@tests/utils/database'
-import { Timeslot, Trainer, Sport } from '@server/entities'
+import { Timeslot, Trainer, Sport, Session } from '@server/entities'
 import {
   fakeTimeslot,
   fakeTrainer,
   fakeSport,
   fakeAdmin,
+  fakeSession,
 } from '@server/entities/tests/fakes'
 import { authContext } from '@tests/utils/context'
 import timeslotRouter from '..'
@@ -32,4 +33,24 @@ it('should remove timeslot', async () => {
   const timeslotsFound = await timeslotRepository.find()
   expect(timeslotsFound).toHaveLength(1)
   expect(timeslotsFound[0].id).not.toEqual(1)
+})
+
+it('should remove all future sessions that reference the deleted timeslot', async () => {
+  const today = new Date()
+  const tomorrow = new Date(today)
+  tomorrow.setDate(today.getDate() + 1)
+  await timeslotRepository.save(fakeTimeslot({ trainerId: 1, sportId: 2 }))
+  await db.getRepository(Session).save(
+    fakeSession({
+      trainerId: 1,
+      sportId: 1,
+      date: tomorrow.toISOString(),
+    })
+  )
+
+  await remove({ id: 3 })
+
+  await expect(
+    db.getRepository(Session).findOneByOrFail({ id: 1 })
+  ).rejects.toThrow()
 })

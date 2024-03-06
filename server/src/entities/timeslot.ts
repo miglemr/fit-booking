@@ -7,8 +7,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { z } from 'zod'
-import { Sport } from './sport'
-import { Trainer } from './trainer'
+import { Sport, Trainer } from '.'
 
 @Entity()
 export class Timeslot {
