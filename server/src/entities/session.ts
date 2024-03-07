@@ -10,7 +10,7 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { z } from 'zod'
-import { Sport, User, Trainer } from '.'
+import { Sport, User, Trainer, Timeslot } from '.'
 
 @Entity()
 export class Session {
@@ -44,6 +44,18 @@ export class Session {
   @JoinColumn({ name: 'trainer_id' })
   trainer: Trainer
 
+  @Column('integer', {
+    nullable: true,
+  })
+  timeslotId?: number
+
+  @ManyToOne(() => Timeslot, (timeslot) => timeslot.sessions, {
+    nullable: true,
+    onDelete: 'SET NULL',
+  })
+  @JoinColumn({ name: 'timeslot_id' })
+  timeslot?: Timeslot
+
   @Column('date')
   date: string
 
@@ -76,6 +88,7 @@ export type SessionBare = Omit<
   Session,
   | 'sport'
   | 'trainer'
+  | 'timeslot'
   | 'users'
   | 'spotsLeft'
   | 'calculateSpotsLeft'
@@ -86,6 +99,7 @@ export const sessionSchema = validates<SessionBare>().with({
   id: z.number().int().positive(),
   sportId: z.number().int().positive(),
   trainerId: z.number().int().positive(),
+  timeslotId: z.number().int().positive().optional(),
   date: z.string(),
   timeStart: z.string(),
   timeEnd: z.string(),

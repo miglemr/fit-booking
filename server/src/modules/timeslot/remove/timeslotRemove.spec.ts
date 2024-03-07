@@ -44,6 +44,7 @@ it('should remove all future sessions that reference the deleted timeslot', asyn
     fakeSession({
       trainerId: 1,
       sportId: 1,
+      timeslotId: 3,
       date: tomorrow.toISOString(),
     })
   )
@@ -53,4 +54,24 @@ it('should remove all future sessions that reference the deleted timeslot', asyn
   await expect(
     db.getRepository(Session).findOneByOrFail({ id: 1 })
   ).rejects.toThrow()
+})
+
+it('should set timeslot ID to null for all past sessions referencing deleted timeslot', async () => {
+  const today = new Date()
+  const yesterday = new Date(today)
+  yesterday.setDate(today.getDate() - 1)
+  await timeslotRepository.save(fakeTimeslot({ trainerId: 1, sportId: 2 }))
+  await db.getRepository(Session).save(
+    fakeSession({
+      trainerId: 1,
+      sportId: 1,
+      timeslotId: 4,
+      date: yesterday.toISOString(),
+    })
+  )
+
+  await remove({ id: 4 })
+
+  const session = await db.getRepository(Session).findOneByOrFail({ id: 2 })
+  expect(session.timeslotId).toBe(null)
 })

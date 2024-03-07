@@ -4,10 +4,11 @@ import {
   Entity,
   JoinColumn,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm'
 import { z } from 'zod'
-import { Sport, Trainer } from '.'
+import { Sport, Trainer, Session } from '.'
 
 @Entity()
 export class Timeslot {
@@ -31,6 +32,9 @@ export class Timeslot {
   @JoinColumn({ name: 'trainer_id' })
   trainer: Trainer
 
+  @OneToMany(() => Session, (session) => session.timeslot)
+  sessions?: Session[]
+
   @Column('time')
   timeStart: string
 
@@ -41,7 +45,7 @@ export class Timeslot {
   spotsTotal: number
 }
 
-export type TimeslotBare = Omit<Timeslot, 'sport' | 'trainer'>
+export type TimeslotBare = Omit<Timeslot, 'sport' | 'trainer' | 'sessions'>
 
 export const timeslotSchema = validates<TimeslotBare>().with({
   id: z.number().int().positive(),

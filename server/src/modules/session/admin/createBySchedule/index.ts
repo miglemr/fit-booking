@@ -30,6 +30,7 @@ export default adminProcedure
 
       Object.assign(rest, {
         date,
+        timeslotId: timeslot.id,
       })
 
       return rest

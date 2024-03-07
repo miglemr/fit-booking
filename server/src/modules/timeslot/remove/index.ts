@@ -7,13 +7,14 @@ export default adminProcedure
   .mutation(async ({ input: { id }, ctx: { db } }) => {
     const currentDate = new Date().toISOString().substring(0, 10)
 
-    await db.getRepository(Timeslot).delete(id)
-
     await db
       .getRepository(Session)
       .createQueryBuilder('session')
       .delete()
       .from(Session)
-      .where('session.date > :currentDate', { currentDate })
+      .where('session.timeslot_id = :id', { id })
+      .andWhere('session.date > :currentDate', { currentDate })
       .execute()
+
+    await db.getRepository(Timeslot).delete(id)
   })
