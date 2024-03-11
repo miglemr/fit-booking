@@ -20,7 +20,7 @@ export default function createApp(db: Database) {
   })
 
   app.use(
-    '/v1/trpc',
+    '/api/v1/trpc',
     createExpressMiddleware({
       createContext: ({ req, res }: CreateExpressContextOptions): Context => ({
         db,
