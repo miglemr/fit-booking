@@ -178,7 +178,7 @@ jobs:
                 "NODE_ENV": "production",
                 "DB_SSL": "true",
                 "DB_SYNC": "true",
-                "DB_TYPE": "postgres"
+                "DB_TYPE": "postgres",
                 "DB_HOST": "${{ secrets.PROD_DB_HOST }}",
                 "DB_NAME": "${{ secrets.PROD_DB_NAME }}",
                 "DB_USER": "${{ secrets.PROD_DB_USER }}",
