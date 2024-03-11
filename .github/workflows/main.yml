@@ -181,9 +181,9 @@ jobs:
                 "DB_NAME": "${{ secrets.PROD_DB_NAME }}",
                 "DB_USER": "${{ secrets.PROD_DB_USER }}",
                 "DB_PASSWORD": "${{ secrets.PROD_DB_PASSWORD }}",
-                "TOKEN_KEY": ${{secrets.TOKEN_KEY}},
-                "SEND_GRID_API_KEY": ${{secrets.SEND_GRID_API_KEY}},
-                "MY_EMAIL": ${{secrets.MY_EMAIL}}
+                "TOKEN_KEY": "${{secrets.TOKEN_KEY}}",
+                "SEND_GRID_API_KEY": "${{secrets.SEND_GRID_API_KEY}}",
+                "MY_EMAIL": "${{secrets.MY_EMAIL}}"
               }
             }
           }' > containers.json
