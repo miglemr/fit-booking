@@ -1,4 +1,4 @@
-name: Test
+name: Test, Build, and Deploy
 
 on: push
 
@@ -82,6 +82,9 @@ jobs:
 
       - name: Test client E2E
         run: npm run test:e2e -w=client
+        env:
+          VITE_API_ORIGIN: http://localhost:3000
+          VITE_API_PATH: /api/v1/trpc
 
       - uses: actions/upload-artifact@v3
         if: always()
@@ -97,6 +100,7 @@ jobs:
     env:
       API_ORIGIN: ${{ vars.API_ORIGIN }}
       API_PATH: /api/v1/trpc
+      SENTRY_DSN_CLIENT: ${{ secrets.SENTRY_DSN_CLIENT }}
       CLIENT_IMAGE_TAG: client-${{ github.sha }}
       SERVER_IMAGE_TAG: server-${{ github.sha }}
     steps:
@@ -132,6 +136,7 @@ jobs:
           -t $CLIENT_IMAGE_TAG
           --build-arg VITE_API_ORIGIN=$API_ORIGIN
           --build-arg VITE_API_PATH=$API_PATH
+          --build-arg VITE_SENTRY_DSN_CLIENT=$SENTRY_DSN_CLIENT
           -f ./client/Dockerfile .
 
       - name: Push server image
@@ -185,7 +190,8 @@ jobs:
                 "DB_PASSWORD": "${{ secrets.PROD_DB_PASSWORD }}",
                 "TOKEN_KEY": "${{secrets.TOKEN_KEY}}",
                 "SEND_GRID_API_KEY": "${{secrets.SEND_GRID_API_KEY}}",
-                "MY_EMAIL": "${{secrets.MY_EMAIL}}"
+                "MY_EMAIL": "${{secrets.MY_EMAIL}}",
+                "SENTRY_DSN": "${{ secrets.SENTRY_DSN }}"
               }
             }
           }' > containers.json

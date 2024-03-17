@@ -4,16 +4,26 @@ import {
   type CreateExpressContextOptions,
 } from '@trpc/server/adapters/express'
 import cors from 'cors'
+import * as Sentry from '@sentry/node'
 import { renderTrpcPanel } from 'trpc-panel'
 import type { Database } from './database'
 import { appRouter } from './modules'
 import type { Context } from './trpc'
+import config from './config'
 
 export default function createApp(db: Database) {
   const app = express()
 
   app.use(cors())
   app.use(express.json())
+
+  const { dsn } = config.sentry
+
+  if (dsn) {
+    Sentry.init({
+      dsn,
+    })
+  }
 
   app.use('/api/health', (_, res) => {
     res.status(200).send('OK')

@@ -2,6 +2,7 @@ import { Session, User } from '@server/entities'
 import { sessionSchema } from '@server/entities/session'
 import { authenticatedProcedure } from '@server/trpc/authenticatedProcedure'
 import sendEmail from '@server/modules/sendEmail'
+import logger from '@server/logger'
 import { generateEmailContent } from './service'
 
 export default authenticatedProcedure
@@ -30,7 +31,7 @@ export default authenticatedProcedure
     try {
       await sendEmail(user.email, generateEmailContent(user.firstName))
     } catch (error) {
-      throw new Error('Failed to send the confirmation e-mail')
+      logger.error(error)
     }
 
     return cancelledBooking

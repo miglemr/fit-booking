@@ -1,5 +1,5 @@
 import { Session } from '@server/entities'
-import { SessionInsert } from '@server/entities/session'
+import { type SessionInsert } from '@server/entities/session'
 import { DataSource } from 'typeorm'
 
 export async function checkSessionOverlap(

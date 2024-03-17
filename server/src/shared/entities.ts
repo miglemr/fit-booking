@@ -1,0 +1,5 @@
+export type * from '../entities/session'
+export type * from '../entities/sport'
+export type * from '../entities/timeslot'
+export type * from '../entities/trainer'
+export type * from '../entities/user'

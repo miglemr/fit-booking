@@ -1,5 +1,5 @@
 import { Timeslot } from '@server/entities'
-import { TimeslotInsert } from '@server/entities/timeslot'
+import { type TimeslotInsert } from '@server/entities/timeslot'
 import { DataSource } from 'typeorm'
 
 export async function checkTimeslotOverlap(

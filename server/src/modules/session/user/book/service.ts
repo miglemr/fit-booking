@@ -1,5 +1,5 @@
 import { Session } from '@server/entities'
-import { AuthUser } from '@server/entities/user'
+import { type AuthUser } from '@server/entities/user'
 import { DataSource } from 'typeorm'
 
 export async function checkBookingOverlap(

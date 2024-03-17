@@ -53,6 +53,10 @@ const schema = z
         type: z.literal('pg-mem'),
       }),
     ]),
+
+    sentry: z.object({
+      dsn: z.string().optional(),
+    }),
   })
   .readonly()
 
@@ -77,6 +81,10 @@ const config = schema.parse({
     logging: env.DB_LOGGING,
     synchronize: env.DB_SYNC,
     ssl: env.DB_SSL,
+  },
+
+  sentry: {
+    dsn: env.SENTRY_DSN,
   },
 })
 

@@ -2,10 +2,9 @@
   "name": "vue-project",
   "version": "0.0.0",
   "private": true,
-  "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "run-p type-check build-only",
+    "build": "vite build",
     "preview": "vite preview",
     "test": "run-p test:unit test:e2e",
     "test:unit": "vitest",
@@ -13,7 +12,6 @@
     "test:e2e": "playwright test",
     "test:e2e:ui": "playwright test --ui",
     "test:e2e:chromium": "playwright test --project chromium",
-    "build-only": "vite build",
     "type-check": "vue-tsc --noEmit -p tsconfig.vitest.json --composite false",
     "lint": "eslint . --ext .vue,.js,.jsx,.cjs,.mjs,.ts,.tsx,.cts,.mts --fix --ignore-path .gitignore",
     "format": "prettier --write src/"
@@ -21,6 +19,7 @@
   "dependencies": {
     "@headlessui/vue": "^1.7.19",
     "@heroicons/vue": "^2.1.1",
+    "@sentry/vue": "^7.106.1",
     "@trpc/client": "^10.45.1",
     "flowbite": "^2.3.0",
     "flowbite-vue": "^0.1.2",
@@ -44,7 +43,7 @@
     "@vue/tsconfig": "^0.5.1",
     "autoprefixer": "^10.4.17",
     "chance": "^1.1.11",
-    "dotenv": "^16.4.4",
+    "dotenv": "^16.4.5",
     "eslint": "^8.49.0",
     "eslint-plugin-vue": "^9.17.0",
     "jsdom": "^24.0.0",

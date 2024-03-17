@@ -2,6 +2,7 @@ import { Session } from '@server/entities'
 import { sessionSchema } from '@server/entities/session'
 import { adminProcedure } from '@server/trpc/adminProcedure'
 import sendEmail from '@server/modules/sendEmail'
+import logger from '@server/logger'
 import { generateEmailContent } from './service'
 
 export default adminProcedure
@@ -32,7 +33,7 @@ export default adminProcedure
             generateEmailContent(user.firstName, sessionWithUsers)
           )
         } catch (error) {
-          throw new Error('Failed to send the confirmation e-mail')
+          logger.error(error)
         }
       })
     )

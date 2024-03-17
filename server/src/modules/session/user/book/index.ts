@@ -3,6 +3,7 @@ import { sessionSchema } from '@server/entities/session'
 import { authenticatedProcedure } from '@server/trpc/authenticatedProcedure'
 import { TRPCError } from '@trpc/server'
 import sendEmail from '@server/modules/sendEmail'
+import logger from '@server/logger'
 import { checkBookingOverlap, generateEmailContent } from './service'
 
 export default authenticatedProcedure
@@ -39,7 +40,7 @@ export default authenticatedProcedure
         generateEmailContent(user.firstName, sessionWithUsers)
       )
     } catch (error) {
-      throw new Error('Failed to send the confirmation e-mail')
+      logger.error(error)
     }
 
     return booking

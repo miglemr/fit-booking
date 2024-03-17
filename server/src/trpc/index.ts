@@ -1,4 +1,5 @@
 import { initTRPC } from '@trpc/server'
+import * as Sentry from '@sentry/node'
 import type { AuthUser } from '@server/entities/user'
 import type { Request, Response } from 'express'
 import type { Database } from '@server/database'
@@ -35,10 +36,12 @@ const t = initTRPC.context<Context>().create({
   },
 })
 
-export const {
-  middleware,
-  router,
-  procedure: publicProcedure,
-  mergeRouters,
-  createCallerFactory,
-} = t
+export const sentryMiddleware = t.middleware(
+  Sentry.Handlers.trpcMiddleware({
+    attachRpcInput: true,
+  })
+)
+
+export const publicProcedure = t.procedure.use(sentryMiddleware)
+
+export const { middleware, router, mergeRouters, createCallerFactory } = t
