@@ -1,12 +1,10 @@
 import { router } from '@server/trpc'
+import book from './book'
 import cancel from './cancel'
-import createBySchedule from './createBySchedule'
-import createCustom from './createCustom'
 import findByDate from './findByDate'
 
 export default router({
+  book,
   cancel,
-  createBySchedule,
-  createCustom,
   findByDate,
 })

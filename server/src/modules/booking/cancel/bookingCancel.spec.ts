@@ -9,7 +9,7 @@ import {
 } from '@server/entities/tests/fakes'
 import * as sendEmail from '@server/modules/sendEmail'
 import { authContext } from '@tests/utils/context'
-import sessionRouter from '../../index'
+import sessionRouter from '..'
 import { generateEmailContent } from './service'
 
 const db = await createTestDatabase()
@@ -20,7 +20,7 @@ const createCaller = createCallerFactory(sessionRouter)
 const user = fakeUser()
 await db.getRepository(User).save(user)
 
-const { cancelBooking } = createCaller(authContext({ db }, user))
+const { cancel } = createCaller(authContext({ db }, user))
 
 vi.mock('@server/modules/sendEmail', () => ({ default: vi.fn() }))
 
@@ -34,7 +34,7 @@ it('should cancel a booking', async () => {
     fakeSession({ sportId: 1, trainerId: 1 }),
   ])
 
-  await cancelBooking({ id: 1 })
+  await cancel({ id: 1 })
 
   const sessionWithUsers = await db.getRepository(Session).findOneOrFail({
     where: { id: 1 },

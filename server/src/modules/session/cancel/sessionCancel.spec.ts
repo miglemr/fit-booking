@@ -10,7 +10,7 @@ import {
 } from '@server/entities/tests/fakes'
 import { authContext } from '@tests/utils/context'
 import * as sendEmail from '@server/modules/sendEmail'
-import sessionRouter from '../../index'
+import sessionRouter from '..'
 import { generateEmailContent } from './service'
 
 const db = await createTestDatabase()

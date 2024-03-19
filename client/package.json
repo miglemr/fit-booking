@@ -21,6 +21,7 @@
     "@heroicons/vue": "^2.1.1",
     "@sentry/vue": "^7.106.1",
     "@trpc/client": "^10.45.1",
+    "@vuepic/vue-datepicker": "^8.2.0",
     "flowbite": "^2.3.0",
     "flowbite-vue": "^0.1.2",
     "pinia": "^2.1.7",

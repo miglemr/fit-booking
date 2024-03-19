@@ -3,6 +3,8 @@ import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import * as Sentry from '@sentry/vue'
 import * as config from './config'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 
 import App from './App.vue'
 import router from './router'
@@ -23,5 +25,6 @@ if (dsn) {
 
 app.use(createPinia())
 app.use(router)
+app.component('VueDatePicker', VueDatePicker)
 
 app.mount('#app')

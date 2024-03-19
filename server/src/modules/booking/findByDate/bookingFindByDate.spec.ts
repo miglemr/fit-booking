@@ -1,61 +1,58 @@
-import { Session, Trainer, Sport } from '@server/entities'
+import { Session, Trainer, Sport, User } from '@server/entities'
 import { createCallerFactory } from '@server/trpc'
 import { createTestDatabase } from '@tests/utils/database'
 import {
   fakeSession,
   fakeSport,
   fakeTrainer,
+  fakeUser,
 } from '@server/entities/tests/fakes'
 import { authContext } from '@tests/utils/context'
-import sessionRouter from '../..'
+import sessionRouter from '..'
 
 const db = await createTestDatabase()
 const sessionRepository = db.getRepository(Session)
 
 const createCaller = createCallerFactory(sessionRouter)
 
-const { findByDate } = createCaller(authContext({ db }))
+const user = fakeUser()
+const userTwo = fakeUser()
+await db.getRepository(User).save([user, userTwo])
+
+const { findByDate } = createCaller(authContext({ db }, user))
 
 await db.getRepository(Trainer).save([fakeTrainer(), fakeTrainer()])
 await db.getRepository(Sport).save([fakeSport(), fakeSport()])
 
-it('should find all sessions for specified date and list them in asceding order by start time', async () => {
+it('should find all user sessions', async () => {
+  const date = '2024-03-18'
   const session = fakeSession({
     sportId: 1,
     trainerId: 1,
-    date: '2024-03-22',
-    timeStart: '10:00',
-    timeEnd: '11:00',
+    users: [user],
+    date,
   })
   const sessionTwo = fakeSession({
     sportId: 1,
     trainerId: 1,
-    date: '2024-03-22',
-    timeStart: '14:00',
-    timeEnd: '15:00',
+    users: [user],
+    date,
   })
   const sessionThree = fakeSession({
     sportId: 1,
     trainerId: 1,
-    date: '2024-03-25',
-    timeStart: '12:00',
-    timeEnd: '13:00',
+    users: [userTwo],
+    date,
   })
   const sessionFour = fakeSession({
     sportId: 1,
     trainerId: 1,
-    date: '2024-03-22',
-    timeStart: '9:00',
-    timeEnd: '10:00',
   })
   await sessionRepository.save([session, sessionTwo, sessionThree, sessionFour])
 
-  const response = await findByDate({ date: '2024-03-22' })
+  const response = await findByDate({ date })
 
-  expect(response).toHaveLength(3)
-  expect(response[0].timeStart).toEqual('09:00:00')
-  expect(response[1].timeStart).toEqual('10:00:00')
-  expect(response[2].timeStart).toEqual('14:00:00')
-  expect(response[0]).toHaveProperty('sport')
-  expect(response[0]).toHaveProperty('trainer')
+  console.log(response)
+
+  expect(response).toHaveLength(2)
 })

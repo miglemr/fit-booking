@@ -6,6 +6,7 @@ import type { Database } from '@server/database'
 import SuperJSON from 'superjson'
 import { ZodError } from 'zod'
 import { fromZodError } from 'zod-validation-error'
+import logger from '@server/logger'
 
 export type Context = {
   db: Database
@@ -31,6 +32,8 @@ const t = initTRPC.context<Context>().create({
         },
       }
     }
+
+    logger.error(error)
 
     return shape
   },
