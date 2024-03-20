@@ -12,5 +12,8 @@ export default authenticatedProcedure
         },
         date,
       },
+      order: {
+        timeStart: 'ASC',
+      },
     })
   )

@@ -7,6 +7,9 @@ export default authenticatedProcedure
   .query(async ({ input: { date }, ctx: { db } }) =>
     db.getRepository(Session).find({
       where: { date },
+      relations: {
+        users: true,
+      },
       order: {
         timeStart: 'ASC',
       },

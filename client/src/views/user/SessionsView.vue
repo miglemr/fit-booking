@@ -2,34 +2,42 @@
 import { ref, watch, onBeforeMount } from 'vue'
 import { trpc } from '@/trpc'
 import { FwbHeading, FwbButton, FwbModal, FwbBadge } from 'flowbite-vue'
+import { useUserStore } from '@/stores/user'
 import { type Session } from '@fit-booking/server/src/shared/entities'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 
 const date = ref()
 const sessions = ref<Session[]>([])
-const bookedSessions = ref<Session[]>([])
 const isShowModal = ref(false)
 const sessionId = ref()
+const { authUserId } = useUserStore()
 
 onBeforeMount(async () => {
   date.value = new Date()
 })
 
 watch(date, async (newDate: Date) => {
-  const date = newDate.toISOString()
+  const date = getDateString(newDate)
 
-  sessions.value = await trpc.session.findByDate.query({ date })
-  bookedSessions.value = await trpc.booking.findByDate.query({ date })
+  sessions.value = await fetchSessions(date)
 })
 
-const checkIfBooked = (id: number) =>
-  bookedSessions.value.some((bookedSession) => bookedSession.id === id)
+const isBooked = (session: Session) => session.users.some((user) => user.id === authUserId)
+
+const getDateString = (date: Date) => date.toISOString()
+
+const fetchSessions = async (date: string) => trpc.session.findByDate.query({ date })
 
 async function handleConfirm() {
+  const dateString = getDateString(date.value)
+
   isShowModal.value = false
+
   await trpc.booking.book.mutate({ id: sessionId.value })
-  bookedSessions.value = await trpc.booking.findByDate.query({ date: date.value.toISOString() })
+
+  sessions.value = await fetchSessions(dateString)
+
   sessionId.value = null
 }
 
@@ -69,7 +77,7 @@ function closeModal() {
           <div class="col-start-3 col-end-4 flex flex-col justify-self-center">
             <p>{{ session.timeStart.substring(0, 5) }} - {{ session.timeEnd.substring(0, 5) }}</p>
 
-            <FwbBadge v-if="checkIfBooked(session.id)" size="xs">Booked</FwbBadge>
+            <FwbBadge v-if="isBooked(session)" size="xs">Booked</FwbBadge>
             <FwbButton v-else size="xs" @click="showModalAndSetId(session.id)">Book</FwbButton>
           </div>
         </div>
