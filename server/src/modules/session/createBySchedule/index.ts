@@ -1,43 +1,71 @@
+import { z } from 'zod'
 import { Session, Timeslot } from '@server/entities'
 import { adminProcedure } from '@server/trpc/adminProcedure'
-import { z } from 'zod'
-import { TRPCError } from '@trpc/server'
+import { isSessionOverlap } from './service'
 
 export default adminProcedure
   .input(
     z.object({
-      date: z.date(),
+      startDate: z.date(),
+      endDate: z.date(),
     })
   )
-  .mutation(async ({ input: { date }, ctx: { db } }) => {
-    const day = date.getDay()
+  .mutation(async ({ input: { startDate, endDate }, ctx: { db } }) => {
+    const dates = getDateArray(startDate, endDate)
 
-    const timeslots = await db.getRepository(Timeslot).find({
-      where: {
-        dayOfWeek: day,
-      },
-    })
+    function getDateArray(start: Date, end: Date) {
+      const dateArray = []
 
-    if (timeslots.length === 0) {
-      throw new TRPCError({
-        code: 'BAD_REQUEST',
-        message: 'No timeslots found for this day',
-      })
+      let current = start
+
+      function addDay(date: Date) {
+        date.setDate(date.getDate() + 1)
+        return date
+      }
+
+      while (current <= end) {
+        dateArray.push(new Date(current))
+        current = addDay(current)
+      }
+
+      return dateArray
     }
 
-    const timeslotsInsert = timeslots.map((timeslot) => {
-      const { dayOfWeek, ...rest } = timeslot
+    await Promise.all(dates.map((date) => createSessions(date)))
 
-      Object.assign(rest, {
-        date,
-        timeslotId: timeslot.id,
+    async function createSessions(date: Date) {
+      const day = date.getDay()
+
+      const timeslots = await db.getRepository(Timeslot).find({
+        where: {
+          dayOfWeek: day,
+        },
       })
 
-      return rest
-    }) as Session[]
+      if (timeslots.length === 0) return
 
-    const records = db.getRepository(Session).create(timeslotsInsert)
-    const sessions = await db.getRepository(Session).save(records)
+      const timeslotsInsert = timeslots.map((timeslot) => {
+        const { dayOfWeek, ...rest } = timeslot
 
-    return sessions
+        Object.assign(rest, {
+          date,
+          timeslotId: timeslot.id,
+        })
+
+        return rest
+      }) as Session[]
+
+      await Promise.all(
+        timeslotsInsert.map(async (timeslot) => {
+          const isOverlap = await isSessionOverlap(timeslot, db)
+
+          if (isOverlap) {
+            return
+          }
+
+          const records = db.getRepository(Session).create(timeslot)
+          await db.getRepository(Session).save(records)
+        })
+      )
+    }
   })

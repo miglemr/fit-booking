@@ -8,7 +8,12 @@ const router = useRouter()
 
 const { logout } = useUserStore()
 
-const links = [{ label: 'Panel', name: 'Panel' }]
+const links = [
+  { label: 'Sessions', name: 'Admin Sessions' },
+  { label: 'Schedule', name: 'Schedule' },
+  { label: 'Trainers', name: 'Trainers' },
+  { label: 'Classes', name: 'Classes' },
+]
 
 function logoutUser() {
   logout()

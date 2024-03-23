@@ -31,6 +31,7 @@ export class Session {
 
   @ManyToOne(() => Sport, (sport) => sport.sessions, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'sport_id' })
   sport: Sport
@@ -40,6 +41,7 @@ export class Session {
 
   @ManyToOne(() => Trainer, (trainer) => trainer.sessions, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   @JoinColumn({ name: 'trainer_id' })
   trainer: Trainer

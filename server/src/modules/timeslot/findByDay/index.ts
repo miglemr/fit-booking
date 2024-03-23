@@ -7,6 +7,10 @@ export default authenticatedProcedure
   .query(async ({ input: { dayOfWeek }, ctx: { db } }) =>
     db.getRepository(Timeslot).find({
       where: { dayOfWeek },
+      relations: {
+        sport: true,
+        trainer: true,
+      },
       order: {
         timeStart: 'ASC',
       },

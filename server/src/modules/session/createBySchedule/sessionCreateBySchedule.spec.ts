@@ -11,6 +11,7 @@ import { authContext } from '@tests/utils/context'
 import sessionRouter from '..'
 
 const db = await createTestDatabase()
+
 const sessionRepository = db.getRepository(Session)
 
 const createCaller = createCallerFactory(sessionRouter)
@@ -38,48 +39,58 @@ it('should save all sessions from schedule', async () => {
       sportId: 2,
     }),
   ])
-  const testDate = new Date('2024-03-04')
+  const startDate = new Date('2024-03-22')
+  const endDate = new Date('2024-03-27')
 
-  const response = await createBySchedule({ date: testDate })
+  await createBySchedule({ startDate, endDate })
 
-  const sessionsFound = await sessionRepository.findBy({ date: '2024-03-04' })
-  expect(response).toHaveLength(2)
-  expect(sessionsFound).toEqual([
-    {
-      id: expect.any(Number),
-      sportId: 1,
-      sport: expect.any(Object),
-      trainerId: 1,
-      trainer: expect.any(Object),
-      timeslotId: expect.any(Number),
-      date: '2024-03-04',
-      timeStart: expect.stringContaining(':00'),
-      timeEnd: expect.stringContaining(':00'),
-      spotsTotal: 10,
-      spotsLeft: 10,
-      isCancelled: false,
-    },
-    {
-      id: expect.any(Number),
-      sportId: 2,
-      sport: expect.any(Object),
-      trainerId: 2,
-      trainer: expect.any(Object),
-      timeslotId: expect.any(Number),
-      date: '2024-03-04',
-      timeStart: expect.stringContaining(':00'),
-      timeEnd: expect.stringContaining(':00'),
-      spotsTotal: 10,
-      spotsLeft: 10,
-      isCancelled: false,
-    },
-  ])
+  const mondaySessions = await sessionRepository.findBy({ date: '2024-03-25' })
+  const tuesdaySessions = await sessionRepository.findBy({ date: '2024-03-26' })
+  const wednesdaySessions = await sessionRepository.findBy({
+    date: '2024-03-27',
+  })
+  expect(mondaySessions).toHaveLength(2)
+  expect(tuesdaySessions).toHaveLength(1)
+  expect(wednesdaySessions).toHaveLength(0)
 })
 
-it('should throw an error if there are no timeslots for this day', async () => {
-  const testDate = new Date('2024-03-06')
-
-  await expect(createBySchedule({ date: testDate })).rejects.toThrow(
-    /No timeslots found/
+it('should not save already existing sessions', async () => {
+  await db.getRepository(Timeslot).save([
+    fakeTimeslot({
+      dayOfWeek: 3,
+      trainerId: 1,
+      sportId: 1,
+    }),
+    fakeTimeslot({
+      dayOfWeek: 3,
+      trainerId: 2,
+      sportId: 2,
+    }),
+    fakeTimeslot({
+      dayOfWeek: 4,
+      trainerId: 2,
+      sportId: 2,
+    }),
+  ])
+  const startDate = new Date('2024-03-29')
+  const endDate = new Date('2024-04-05')
+  await createBySchedule({ startDate, endDate })
+  await db.getRepository(Timeslot).save(
+    fakeTimeslot({
+      dayOfWeek: 4,
+      trainerId: 1,
+      sportId: 1,
+    })
   )
+
+  await createBySchedule({ startDate, endDate })
+
+  const wednesdaySessions = await sessionRepository.findBy({
+    date: '2024-04-03',
+  })
+  const thursdaySessions = await sessionRepository.findBy({
+    date: '2024-04-04',
+  })
+  expect(wednesdaySessions).toHaveLength(2)
+  expect(thursdaySessions).toHaveLength(2)
 })

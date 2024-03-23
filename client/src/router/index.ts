@@ -17,7 +17,7 @@ const router = createRouter({
           component: () => import('../views/user/BookingsView.vue'),
         },
         {
-          path: '/sessions',
+          path: 'sessions',
           name: 'Sessions',
           component: () => import('../views/user/SessionsView.vue'),
         },
@@ -30,8 +30,23 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'Panel',
-          component: () => import('../views/admin/PanelView.vue'),
+          name: 'Admin Sessions',
+          component: () => import('../views/admin/SessionsView.vue'),
+        },
+        {
+          path: 'schedule',
+          name: 'Schedule',
+          component: () => import('../views/admin/ScheduleView.vue'),
+        },
+        {
+          path: 'trainers',
+          name: 'Trainers',
+          component: () => import('../views/admin/TrainersView.vue'),
+        },
+        {
+          path: 'classes',
+          name: 'Classes',
+          component: () => import('../views/admin/ClassesView.vue'),
         },
       ],
     },

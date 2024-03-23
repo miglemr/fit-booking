@@ -52,7 +52,5 @@ it('should find all user sessions', async () => {
 
   const response = await findByDate({ date })
 
-  console.log(response)
-
   expect(response).toHaveLength(2)
 })

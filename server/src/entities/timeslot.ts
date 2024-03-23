@@ -21,14 +21,18 @@ export class Timeslot {
   @Column('integer')
   sportId: number
 
-  @ManyToOne(() => Sport, (sport) => sport.timeslots)
+  @ManyToOne(() => Sport, (sport) => sport.timeslots, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'sport_id' })
   sport: Sport
 
   @Column('integer')
   trainerId: number
 
-  @ManyToOne(() => Trainer, (trainer) => trainer.timeslots)
+  @ManyToOne(() => Trainer, (trainer) => trainer.timeslots, {
+    onDelete: 'CASCADE',
+  })
   @JoinColumn({ name: 'trainer_id' })
   trainer: Trainer
 
