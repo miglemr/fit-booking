@@ -34,9 +34,12 @@ export async function loginNewUser(page: Page, userLogin = fakeUser()) {
   return userLogin
 }
 
-export async function setAdminToken(page: Page) {
-  const accessToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2NSwiaXNBZG1pbiI6dHJ1ZX0sImlhdCI6MTcxMTI2ODMzNSwiZXhwIjoxNzExODczMTM1fQ.Yrn0ruxGbTpJbixTqBkH_CuMgOCE0QxXzkXYJaNOfB0'
+export async function loginNewAdmin(page: Page, userLogin = fakeUser()) {
+  await signupUser(userLogin)
+
+  await trpc.user.makeAdmin.mutate({ email: userLogin.email })
+
+  const { accessToken } = await trpc.user.login.mutate(userLogin)
 
   await page.goto('/')
 
@@ -46,6 +49,7 @@ export async function setAdminToken(page: Page) {
     },
     { accessToken }
   )
+  return userLogin
 }
 
 export async function removeToken(page: Page) {
