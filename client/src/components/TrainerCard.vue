@@ -2,7 +2,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { trpc } from '@/trpc'
 import { FwbButton, FwbModal, FwbAlert, FwbInput } from 'flowbite-vue'
-import type { Trainer } from '@fit-booking/server/src/entities'
+import type { Trainer } from '@fit-book/server/src/entities'
 import useErrorMessage from '@/composables/useErrorMessage'
 
 onBeforeMount(async () => {
@@ -67,6 +67,7 @@ function closeDeleteModal() {
 <template>
   <div
     class="mb-6 flex max-w-80 justify-between rounded-lg border border-gray-200 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+    data-testid="trainer"
   >
     <p>{{ trainer.firstName }} {{ trainer.lastName }}</p>
     <div class="flex">
@@ -80,7 +81,7 @@ function closeDeleteModal() {
       <FwbAlert v-if="editErrorMessage" data-testid="errorMessage" type="danger" class="mb-2">
         {{ editErrorMessage }}
       </FwbAlert>
-      <form aria-label="trainer-edit" @submit.prevent="handleEdit">
+      <form aria-label="Update trainer" @submit.prevent="handleEdit">
         <FwbInput v-model="firstName" label="First name" required />
         <FwbInput v-model="lastName" label="Last name" required />
         <div class="mt-6 flex justify-between">

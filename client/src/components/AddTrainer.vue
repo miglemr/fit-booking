@@ -30,7 +30,7 @@ async function createTrainer() {
       <FwbAlert v-if="errorMessage" data-testid="errorMessage" type="danger" class="mb-2">
         {{ errorMessage }}
       </FwbAlert>
-      <form aria-label="class-create" @submit.prevent="handleSubmit">
+      <form @submit.prevent="handleSubmit">
         <FwbInput v-model="firstName" placeholder="Enter first name" label="First name" required />
         <FwbInput v-model="lastName" placeholder="Enter last name" label="Last name" required />
         <div class="mt-6 flex justify-between">

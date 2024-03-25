@@ -5,7 +5,7 @@ import { FwbHeading, FwbButton, FwbTabs, FwbTab } from 'flowbite-vue'
 import SessionCard from '@/components/SessionCard.vue'
 import CreateSession from '@/components/CreateSession.vue'
 import ScheduleSessionsView from './ScheduleSessionsView.vue'
-import { type Session } from '@fit-booking/server/src/shared/entities'
+import { type Session } from '@fit-book/server/src/shared/entities'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 

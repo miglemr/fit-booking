@@ -3,7 +3,7 @@ import { ref, watch, onBeforeMount, computed } from 'vue'
 import { trpc } from '@/trpc'
 import { FwbHeading } from 'flowbite-vue'
 import SessionBookCard from '@/components/SessionBookCard.vue'
-import { type Session } from '@fit-booking/server/src/shared/entities'
+import { type Session } from '@fit-book/server/src/shared/entities'
 import VueDatePicker from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 

@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { FwbBadge, FwbButton, FwbModal } from 'flowbite-vue'
-import type { Session } from '@fit-booking/server/src/entities'
+import type { Session } from '@fit-book/server/src/entities'
 
 const props = defineProps<{
   session: Session
@@ -29,7 +29,7 @@ function closeModal() {
 </script>
 
 <template>
-  <div class="mb-2 max-w-80 text-xs">
+  <div class="mb-2 max-w-80 text-xs" data-testid="session">
     <FwbBadge class="mb-1 w-24">
       {{ session.timeStart.substring(0, 5) }} - {{ session.timeEnd.substring(0, 5) }}
     </FwbBadge>
@@ -48,7 +48,7 @@ function closeModal() {
         <FwbButton v-if="!session.isCancelled" size="xs" @click="showModal" :disabled="isPastDate"
           >Cancel</FwbButton
         >
-        <FwbBadge type="dark" v-else>Canceled</FwbBadge>
+        <FwbBadge type="dark" v-else data-testid="canceled-badge">Canceled</FwbBadge>
       </div>
     </div>
   </div>

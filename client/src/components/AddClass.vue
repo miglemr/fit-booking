@@ -28,7 +28,7 @@ async function createSport() {
       <FwbAlert v-if="errorMessage" data-testid="errorMessage" type="danger" class="mb-2">
         {{ errorMessage }}
       </FwbAlert>
-      <form aria-label="class-create" @submit.prevent="handleSubmit">
+      <form @submit.prevent="handleSubmit">
         <FwbInput v-model="name" placeholder="Enter name" label="Class name" required />
         <div class="mt-6 flex justify-between">
           <FwbButton @click="$emit('close')" color="alternative"> Cancel </FwbButton>

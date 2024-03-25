@@ -1,6 +1,6 @@
 import { apiOrigin, apiPath } from './config'
 import { createTRPCProxyClient, httpBatchLink } from '@trpc/client'
-import type { AppRouter } from '@fit-booking/server/src/shared/trpc'
+import type { AppRouter } from '@fit-book/server/src/shared/trpc'
 import { fakeUser } from './fakeData'
 import type { Page } from '@playwright/test'
 import { superjson } from './superjson/common'
@@ -34,9 +34,9 @@ export async function loginNewUser(page: Page, userLogin = fakeUser()) {
   return userLogin
 }
 
-export async function loginNewAdmin(page: Page) {
+export async function setAdminToken(page: Page) {
   const accessToken =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjoxLCJpc0FkbWluIjp0cnVlfSwiaWF0IjoxNzEwNjAyMzI1LCJleHAiOjE3MTEyMDcxMjV9.toIo5yRJzoWuRifRVwYqAbDJbVgpGI-54-LjfrtymY4'
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImlkIjo2NSwiaXNBZG1pbiI6dHJ1ZX0sImlhdCI6MTcxMTI2ODMzNSwiZXhwIjoxNzExODczMTM1fQ.Yrn0ruxGbTpJbixTqBkH_CuMgOCE0QxXzkXYJaNOfB0'
 
   await page.goto('/')
 
@@ -46,6 +46,14 @@ export async function loginNewAdmin(page: Page) {
     },
     { accessToken }
   )
+}
+
+export async function removeToken(page: Page) {
+  await page.goto('/')
+
+  await page.evaluate(() => {
+    localStorage.clear()
+  })
 }
 
 export async function signupUser(userLogin = fakeUser()) {

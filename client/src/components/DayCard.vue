@@ -4,7 +4,7 @@ import { trpc } from '@/trpc'
 import TimeslotCard from '@/components/TimeslotCard.vue'
 import CreateTimeslot from '@/components/CreateTimeslot.vue'
 import { FwbButton } from 'flowbite-vue'
-import { type Timeslot } from '@fit-booking/server/src/shared/entities'
+import { type Timeslot } from '@fit-book/server/src/shared/entities'
 
 onBeforeMount(async () => {
   timeslots.value = await fetchTimeslots(jsDayIndex.value)

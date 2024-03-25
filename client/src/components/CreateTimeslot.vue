@@ -75,7 +75,7 @@ async function createTimeslot(dayIndex: number) {
       </FwbAlert>
       <form
         class="space-y-4 md:space-y-6"
-        aria-label="timeslot-create"
+        aria-label="Create timeslot"
         @submit.prevent="handleSubmit"
       >
         <FwbSelect

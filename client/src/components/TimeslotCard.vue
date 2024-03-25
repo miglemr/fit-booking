@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { FwbButton, FwbModal, FwbBadge } from 'flowbite-vue'
-import { type Timeslot } from '@fit-booking/server/src/shared/entities'
+import { type Timeslot } from '@fit-book/server/src/shared/entities'
 
 defineProps<{
   timeslot: Timeslot

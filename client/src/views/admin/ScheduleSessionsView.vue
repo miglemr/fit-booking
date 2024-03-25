@@ -22,6 +22,8 @@ async function createBySchedule() {
   await trpc.session.createBySchedule.mutate({ startDate, endDate })
 
   isSuccess.value = true
+
+  closeModal()
 }
 
 function showModal() {
@@ -38,6 +40,9 @@ function closeModal() {
     <div v-if="isSuccess" class="my-4 max-w-96">
       <FwbAlert type="success">Created successfully</FwbAlert>
     </div>
+    <p class="mb-6 text-xs">
+      Pick a date range for which you would like to create sessions using schedule timeslots.
+    </p>
     <div class="max-w-64">
       <VueDatePicker
         v-model="date"

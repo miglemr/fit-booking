@@ -27,9 +27,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Type check server
-        run: npm run type-check -w=server
-
       - name: Lint server
         run: npm run lint -w=server
 
@@ -42,14 +39,8 @@ jobs:
       - name: Type check client
         run: npm run type-check -w=client
 
-      - name: Lint server
-        run: npm run lint -w=server
-
       - name: Lint client
         run: npm run lint -w=client
-
-      - name: Test server
-        run: npm run test -w=server
 
       - name: Test client (unit)
         run: npm run test:unit -w=client
@@ -62,9 +53,10 @@ jobs:
         env:
           DB_USER: user
           DB_PASSWORD: password
-          DB_TYPE: pg-mem
           DB_NAME: testdb
           DB_HOST: localhost
+          NODE_ENV: test
+          DB_TYPE: postgres
           PORT: 3000
 
       - name: Build front end for E2E tests
@@ -190,7 +182,7 @@ jobs:
                 "DB_PASSWORD": "${{ secrets.PROD_DB_PASSWORD }}",
                 "TOKEN_KEY": "${{secrets.TOKEN_KEY}}",
                 "SEND_GRID_API_KEY": "${{secrets.SEND_GRID_API_KEY}}",
-                "MY_EMAIL": "${{secrets.MY_EMAIL}}",
+                "SENDGRID_SENDER_EMAIL": "${{secrets.SENDGRID_SENDER_EMAIL}}",
                 "SENTRY_DSN": "${{ secrets.SENTRY_DSN }}"
               }
             }

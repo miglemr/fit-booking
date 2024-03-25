@@ -4,7 +4,7 @@ import { trpc } from '@/trpc'
 import { FwbButton } from 'flowbite-vue'
 import ClassCard from '@/components/ClassCard.vue'
 import AddClass from '@/components/AddClass.vue'
-import { type Sport } from '@fit-booking/server/src/shared/entities'
+import { type Sport } from '@fit-book/server/src/shared/entities'
 
 onBeforeMount(async () => {
   sports.value = await fetchSports()

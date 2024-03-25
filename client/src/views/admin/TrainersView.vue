@@ -4,7 +4,7 @@ import { trpc } from '@/trpc'
 import { FwbButton } from 'flowbite-vue'
 import TrainerCard from '@/components/TrainerCard.vue'
 import AddTrainer from '@/components/AddTrainer.vue'
-import { type Trainer } from '@fit-booking/server/src/shared/entities'
+import { type Trainer } from '@fit-book/server/src/shared/entities'
 
 onBeforeMount(async () => {
   trainers.value = await fetchTrainers()

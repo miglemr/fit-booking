@@ -2,7 +2,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { FwbBadge, FwbButton, FwbModal } from 'flowbite-vue'
 import { useUserStore } from '@/stores/user'
-import type { Session } from '@fit-booking/server/src/entities'
+import type { Session } from '@fit-book/server/src/entities'
 
 onBeforeMount(() => {
   isBooked.value = props.session.users.some((user) => user.id === authUserId)

@@ -2,7 +2,7 @@
 import { ref, onBeforeMount } from 'vue'
 import { trpc } from '@/trpc'
 import { FwbButton, FwbModal, FwbAlert, FwbInput } from 'flowbite-vue'
-import type { Sport } from '@fit-booking/server/src/entities'
+import type { Sport } from '@fit-book/server/src/entities'
 import useErrorMessage from '@/composables/useErrorMessage'
 
 onBeforeMount(async () => {
@@ -64,6 +64,7 @@ function closeDeleteModal() {
 <template>
   <div
     class="mb-6 flex max-w-80 justify-between rounded-lg border border-gray-200 bg-white p-2 text-gray-900 dark:border-gray-600 dark:bg-gray-700 dark:text-white"
+    data-testid="class"
   >
     <p>{{ sport.name }}</p>
     <div class="flex">

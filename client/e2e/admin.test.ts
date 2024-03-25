@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
-import { loginNewAdmin } from 'utils/api'
+import { setAdminToken } from 'utils/api'
 
 test.describe('admin login sequence', () => {
   test('admin can access admin panel', async ({ page }) => {
-    await loginNewAdmin(page)
+    await setAdminToken(page)
 
     await page.goto('/admin')
 
@@ -14,7 +14,7 @@ test.describe('admin login sequence', () => {
   })
 
   test('admin can not access bookings page', async ({ page }) => {
-    await loginNewAdmin(page)
+    await setAdminToken(page)
     await page.goto('/admin')
 
     await page.goto('/user')
@@ -23,7 +23,7 @@ test.describe('admin login sequence', () => {
   })
 
   test('admin can logout', async ({ page }) => {
-    await loginNewAdmin(page)
+    await setAdminToken(page)
     await page.goto('/admin')
     const logoutLink = page.getByRole('link', { name: 'Logout' })
 

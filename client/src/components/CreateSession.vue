@@ -75,7 +75,7 @@ async function createSession() {
       </FwbAlert>
       <form
         class="space-y-4 md:space-y-6"
-        aria-label="session-create"
+        aria-label="Create session"
         @submit.prevent="handleSubmit"
       >
         <FwbSelect
@@ -109,7 +109,7 @@ async function createSession() {
             />
           </div>
         </div>
-        <label for="spots" class="mr-2 rounded-md p-2">Spots total</label>
+        <label for="Spots total" class="mr-2 rounded-md p-2">Spots total</label>
         <input
           v-model="spotsTotal"
           type="number"

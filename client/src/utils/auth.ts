@@ -1,4 +1,4 @@
-import type { AuthUser } from '@fit-booking/server/src/shared/entities'
+import type { AuthUser } from '@fit-book/server/src/shared/entities'
 
 const TOKEN_KEY = 'token'
 
