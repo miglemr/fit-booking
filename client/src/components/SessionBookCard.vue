@@ -23,6 +23,8 @@ const isBooked = ref()
 
 const isShowModal = ref(false)
 
+const isAvailable = props.session.spotsLeft !== 0
+
 async function handleConfirm() {
   isShowModal.value = false
   emit('book', props.session.id)
@@ -56,7 +58,11 @@ function closeModal() {
       <div class="col-start-3 col-end-4 flex flex-col">
         <p class="mb-2">Availability: {{ session.spotsLeft }}</p>
         <FwbBadge v-if="session.isCancelled" type="dark">Canceled</FwbBadge>
-        <FwbButton v-else-if="!isBooked" size="xs" @click="showModal" :disabled="isPastDate"
+        <FwbButton
+          v-else-if="!isBooked"
+          size="xs"
+          @click="showModal"
+          :disabled="isPastDate || !isAvailable"
           >Book</FwbButton
         >
         <FwbBadge v-else type="green">Booked</FwbBadge>
